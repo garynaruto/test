@@ -20,6 +20,16 @@ class App extends React.Component<IProps, IState> {
     const scaleFactor = 30;
     const startScale = 20;
     const bondingScale = 325;
+    const bonding = [];
+    const bonding_x: number[] = [];
+    let x0 = 0;
+    for(let node of data){
+      x0 += node.width +scaleFactor + startScale;
+      if(node.bondPartFlag === "Y"){
+        bonding.push(node.bondPartInfo);
+        bonding_x.push(x0);
+      }
+    }
 
     const graph = d3.select(this.ref)
       .attr("width", svgWidth)
@@ -85,34 +95,35 @@ class App extends React.Component<IProps, IState> {
         }
         return "translate(0,0)"; });
     
-    // bonding part attr
+    // bonding part attr rect
     stage.filter(function(d){ return d.bondPartFlag==="Y"; })
     .append("rect")
-    .attr("width", function(d) {
-      if(d.bondPartFlag === "Y"){
-        return d.width-(d.width-bondingScale)-scaleFactor;
-      }
-      return d.width; })
+    .attr("width", function(d) { return d.width-(d.width-bondingScale)-scaleFactor; })
     .attr("height", function(d) { return d.height; })
     .attr("class",function(d) { return  "bonding-part"+" bonding-part-"+d.stage; })
     .attr("transform", "translate(0,50)");
     
-   
-
-    const bonding = stage.selectAll('g')
-      .data(data)
-      .selectAll("bonding-part")
-      .data(function(d) { return d.bondPartInfo; }) // d is matrix[i]
-      .enter()
-      .append("rect")
-      .attr("width", function(d) {
-        console.log("d="+d)
-        return 10; })
-      .attr("height", function(d) { return 10; })
-      .attr("class", "part")
-      .attr("transform", function(d, i) {
-        return "translate(0"+10*i+")";
-      });
+    /**/
+    const bb = graph.selectAll("a")
+    .data([{partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+      {partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+      {partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},])
+    .enter()
+    .append("a")
+    .attr("transform", function(d, i) {
+      let start = 50;
+      for(let index=0; index<i; index++){
+        start +=30;
+      }
+      console.log("bb="+start)
+      //const c = (i*d.width) +scaleFactor*i+startScale;
+      return "translate("+200+"," + start  + ")";
+    });
+    
+    bb.append("rect")
+    .attr("width", function(d) { return 295; })
+    .attr("height", 30)
+    .attr("class", "title")
 
     
     
@@ -151,16 +162,21 @@ class App extends React.Component<IProps, IState> {
       { stage:"WF", width:150, height: 300, partId:"TM4610A-001C1L1ZN" },
       { stage:"BP", width:450, height: 300, partId:"TM4610A-001C1L1BP", bondPartFlag:"Y",
       bondPartInfo:[
-        {partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
-        {partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
-        {partId:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
+        {label:"bond TM4610A-001C1L1ZN", binGrade:"NA", qty:"1",side:"FS",layer:"1",area:"1"},
       ]
     },
       { stage:"CP", width:150, height: 300, partId:"TM4610A-001C1L1CP" },
       { stage:"AS", width:150, height: 300, partId:"TM4610A-001C1L1AN" },
       { stage:"FT", width:150, height: 300, partId:"TM4610A-001C1L1PN" }
    ];
+
    countriesData[countriesData.length-1].end = "Y";
+   
    this.buildGraph(countriesData);
     //this.buildGraph([50, 10, 12]);
   }
