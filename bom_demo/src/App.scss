@@ -1,0 +1,41 @@
+.svg {
+  margin-top: 10px;
+  margin-left: 10px;
+  svg {
+      .title {
+          fill: rgba(172, 171, 171, 0.841);
+          stroke: rgb(0, 0, 0);
+          stroke-width: 1;
+      }
+      .part{
+        fill: #74bcff;
+        stroke: rgb(0, 0, 0);
+        stroke-width: 1;
+      }
+      .bonding-part{
+        fill: #ffffff;
+        stroke: rgb(0, 0, 0);
+        stroke-width: 1;
+      }
+      text {
+          fill: rgb(0, 0, 0);
+          font: 10px sans-serif;
+          text-anchor:middle;
+      }
+
+      .arrow-icon{
+       filter: invert(70%) sepia(100%) saturate(2476%) hue-rotate(86deg) brightness(100%) contrast(119%);
+       //filter: invert(71%) sepia(49%) saturate(6999%) hue-rotate(188deg) brightness(104%) contrast(101%); 
+      }
+
+      .add-icon{
+        text-anchor:middle;
+        //filter: invert(70%) sepia(100%) saturate(2476%) hue-rotate(86deg) brightness(100%) contrast(119%);
+        filter: invert(71%) sepia(49%) saturate(6999%) hue-rotate(188deg) brightness(104%) contrast(101%); 
+       }
+  }
+  
+}
+
+//rgb(195, 255, 246);
+//rgb(233, 233, 233);
